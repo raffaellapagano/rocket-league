@@ -11,6 +11,8 @@
 
     <button class="btn btn-primary m-2" @click="veureInfoCoet(coet)">Veure</button>
 
+    <button class="btn btn-primary m-2" @click="veureTotsCoets(coet)">Veure Tot</button>
+
     <div v-if="infoCoet" id="infoRocket" >
       <Rocket :coet="coet"/>
     </div>
@@ -35,7 +37,7 @@ import { Coet } from './../models/coet'
   },
 })
 export default class Home extends Vue {
-  coets: Map<string, Coet> = new Map<string, Coet>();
+  coets = new Array<Coet>()
   infoCoet = false;
   infoPower = false;
   coet= new Coet("", []);
@@ -58,7 +60,7 @@ export default class Home extends Vue {
     this.infoCoet = false;
     this.coet = coet;
     this.$store.dispatch("addCoet", this.coet);
-    this.coets = this.$store.getters.getCoets;
+    this.coets.push(this.coet)
     console.log(this.coets);
     this.infoCoet = true;
   }
@@ -71,6 +73,14 @@ export default class Home extends Vue {
   veureInfoCoet(coet: Coet) {
     let text = coet.veure();
     alert(text);
+  }
+
+  veureTotsCoets() {
+    let text = "";
+    for (let i = 0; i < this.coets.length; i++) {
+      text = text + this.coets[i].veure(); 
+    }
+    alert(text)
   }
 }
 </script>
